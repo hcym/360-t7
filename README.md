@@ -7,7 +7,7 @@ Compared the official one, we allow to use hacks or non-upstreamable patches / m
 
 Default login address: http://192.168.1.1 or http://immortalwrt.lan, username: __root__, password: _none_.
 
-## About immortalwrt-mt798x 
+## About immortalwrt-mt798x T7
 - https://cmi.hanwckf.top/p/immortalwrt-mt798x/
 
 ## Download
