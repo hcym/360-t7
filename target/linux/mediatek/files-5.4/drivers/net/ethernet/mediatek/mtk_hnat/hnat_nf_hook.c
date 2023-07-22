@@ -299,7 +299,7 @@ void foe_clear_entry(struct neighbour *neigh)
 				*((u32 *)h_dest) = swab32(entry->ipv4_hnapt.dmac_hi);
 				*((u16 *)&h_dest[4]) =
 					swab16(entry->ipv4_hnapt.dmac_lo);
-				if (strncmp(h_dest, neigh->ha, ETH_ALEN) != 0) {
+				if (memcmp(h_dest, neigh->ha, ETH_ALEN) != 0) {
 					pr_info("%s: state=%d\n", __func__,
 						neigh->nud_state);
 					cr_set_field(hnat_priv->ppe_base[i] + PPE_TB_CFG,
@@ -2079,6 +2079,10 @@ static unsigned int mtk_hnat_nf_post_routing(
 		return 0;
 
 	if (unlikely(!skb_hnat_is_hashed(skb)))
+		return 0;
+
+	/* Do not bind if pkt is fragmented */
+	if (ip_is_fragment(ip_hdr(skb)))
 		return 0;
 
 	if (out->netdev_ops->ndo_flow_offload_check) {
