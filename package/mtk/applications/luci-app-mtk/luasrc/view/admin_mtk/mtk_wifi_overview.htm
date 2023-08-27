@@ -210,6 +210,7 @@ local chipname
                 <th class="cbi-section-table-cell">SSID</th>
                 <th class="cbi-section-table-cell"><%:MAC-Address%></th>
                 <th class="cbi-section-table-cell"><%:Hostname%></th>
+                <th class="cbi-section-table-cell"><%:Security%></th>
                 <th class="cbi-section-table-cell"><%:Signal%> (dBm)</th>
                 <th class="cbi-section-table-cell"><%:TX Rate%></th>
                 <th class="cbi-section-table-cell"><%:RX Rate%></th>
@@ -232,6 +233,13 @@ local chipname
         //console.log("clean_aplist_table.aplist len=" + table.rows.length);
         while(table.rows.length > 1)
             table.deleteRow(-1);
+    }
+
+    function is_rssi_valid(rssi)
+    {
+        if (rssi == "-109" || rssi == "-127")
+            return false;
+        return true;
     }
 
     function insert_stalist_table(ifname, ssid, sta_list)
@@ -261,20 +269,27 @@ local chipname
                 host_str = host_str + "<br>" + sta_list[i].ipv6
             td_cell = tr_row.insertCell(-1);
             td_cell.innerHTML = host_str;
-            
-            rssi_str = sta_list[i].AvgRssi0 + ", " + sta_list[i].AvgRssi1;
-            if (sta_list[i].AvgRssi2 != "-127")
+
+            td_cell = tr_row.insertCell(-1);
+            td_cell.innerHTML = sta_list[i].security;
+
+            rssi_str = sta_list[i].AvgRssi0;
+            if (is_rssi_valid(sta_list[i].AvgRssi1))
+                rssi_str = rssi_str + ", " + sta_list[i].AvgRssi1;
+            if (is_rssi_valid(sta_list[i].AvgRssi2))
                 rssi_str = rssi_str + ", " + sta_list[i].AvgRssi2;
+            if (is_rssi_valid(sta_list[i].AvgRssi3))
+                rssi_str = rssi_str + ", " + sta_list[i].AvgRssi3;
             td_cell = tr_row.insertCell(-1);
             td_cell.innerHTML = rssi_str;
 
             //TxRate
             td_cell = tr_row.insertCell(-1);
-            td_cell.innerHTML = sta_list[i].TxRate + "Mbps," + sta_list[i].Bw+ "MHz" + "<br>" + sta_list[i].PhyMode + ", " + sta_list[i].Mcs + ", " + sta_list[i].Gi + "GI";
+            td_cell.innerHTML = sta_list[i].TxRate + "Mbps," + sta_list[i].Bw+ "MHz" + "<br>" + sta_list[i].PhyMode + ", " + sta_list[i].Mcs + ", " + sta_list[i].Gi;
 
             //RxRate
             td_cell = tr_row.insertCell(-1);
-            td_cell.innerHTML = sta_list[i].RxRate + "Mbps," + sta_list[i].LastBw + "MHz" + "<br>" + sta_list[i].LastPhyMode + ", " + sta_list[i].LastMcs + ", " + sta_list[i].LastGi + "GI";
+            td_cell.innerHTML = sta_list[i].RxRate + "Mbps," + sta_list[i].LastBw + "MHz" + "<br>" + sta_list[i].LastPhyMode + ", " + sta_list[i].LastMcs + ", " + sta_list[i].LastGi;
 
             td_cell = tr_row.insertCell(-1);
             td_cell.innerHTML = sta_list[i].Hr + ":" + sta_list[i].Min + ":" + sta_list[i].Sec;
