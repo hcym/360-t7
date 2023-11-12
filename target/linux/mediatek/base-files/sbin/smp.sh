@@ -710,6 +710,7 @@ setup_model()
 
 	case $board in
 	xiaomi,redmi-router-ax6000* |\
+	bananapi,bpi-r3mini* |\
 	*7986*)
 		MT7986_whnat $num_of_wifi
 		;;
@@ -719,10 +720,14 @@ setup_model()
 	*mt2500* |\
 	*zr-3020* |\
 	*360,t7* |\
+	abt,asr3000* |\
+	*clt,r30b1* |\
+	cmcc,a10* |\
 	xiaomi,mi-router-wr30u* |\
 	*rax3000m* |\
 	h3c,nx30pro |\
 	konka,komi-a31 |\
+	nradio,wt9103 |\
 	*7981*)
 		MT7981_whnat $num_of_wifi
 		;;
