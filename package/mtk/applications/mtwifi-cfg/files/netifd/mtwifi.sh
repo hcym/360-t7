@@ -14,8 +14,8 @@ MTWIFI_MAX_APCLI_IDX=0
 MTWIFI_CFG_IFNAME_KEY="mtwifi_ifname"
 
 drv_mtwifi_init_device_config() {
-	config_add_int txpower
-	config_add_boolean mu_beamformer
+	config_add_int txpower beacon_int dtim_period
+	config_add_boolean mu_beamformer dbdc_main whnat
 	config_add_string country twt
 }
 
@@ -65,11 +65,6 @@ mtwifi_vif_sta_config() {
 
 	if [ -n "$ifname" ]; then
 		logger -t "netifd-mtwifi" "add $ifname to vifidx $name"
-
-		# setup apcli autoconnect
-		iwpriv "$ifname" set ApCliEnable=1
-		iwpriv "$ifname" set ApCliAutoConnect=3
-
 		wireless_add_vif "$name" "$ifname"
 	fi
 }

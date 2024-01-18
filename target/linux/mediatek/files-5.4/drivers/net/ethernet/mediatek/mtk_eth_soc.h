@@ -124,7 +124,8 @@
 /* PSE Free Queue Flow Control  */
 #define PSE_FQFC_CFG1		0x100
 #define PSE_FQFC_CFG2		0x104
-#define PSE_DROP_CFG		0x108
+#define PSE_NO_DROP_CFG		0x108
+#define PSE_PPE0_DROP		0x110
 
 /* PSE Input Queue Reservation Register*/
 #define PSE_IQ_REV(x)		(0x140 + ((x - 1) * 0x4))
@@ -473,13 +474,13 @@
 #define MTK_STAT_OFFSET		0x40
 
 /* QDMA TX NUM */
-#define MTK_QDMA_TX_NUM		16
+#define MTK_QDMA_TX_NUM		64
 #define MTK_QDMA_TX_MASK	((MTK_QDMA_TX_NUM) - 1)
 #define QID_LOW_BITS(x)         ((x) & 0xf)
 #define QID_HIGH_BITS(x)        ((((x) >> 4) & 0x3) << 20)
 #define QID_BITS_V2(x)		(((x) & 0x3f) << 16)
 
-#define MTK_QDMA_GMAC2_QID	8
+#define MTK_QDMA_GMAC2_QID	32
 
 /* QDMA V2 descriptor txd6 */
 #define TX_DMA_INS_VLAN_V2         BIT(16)
@@ -586,7 +587,7 @@
 /* Mac control registers */
 #define MTK_MAC_MCR(x)		(0x10100 + (x * 0x100))
 #define MAC_MCR_MAX_RX_1536	BIT(24)
-#define MAC_MCR_IPG_CFG		(BIT(18) | BIT(16))
+#define MAC_MCR_IPG_CFG		(BIT(18) | BIT(16) | BIT(12))
 #define MAC_MCR_FORCE_MODE	BIT(15)
 #define MAC_MCR_TX_EN		BIT(14)
 #define MAC_MCR_RX_EN		BIT(13)
